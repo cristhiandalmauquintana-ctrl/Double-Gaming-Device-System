@@ -1,49 +1,66 @@
-# DGDS (Double Gaming Device Stream)
+# DGDS
 
-Transmite la pantalla de tu teléfono Android a una laptop de bajos recursos para jugar.
-La laptop solo decodifica el video; el juego corre en el teléfono.
+**Mira la pantalla de tu teléfono Android en tu PC, sin instalar nada en la PC.**
 
-**Estado: fase 1 (MVP).** Teléfono → laptop por Wi-Fi. Todavía no hay controles,
-cable USB, pantalla oscura ni cliente de escritorio propio.
+Pensado para computadoras modestas: el juego o la app corre en tu teléfono, y la PC
+solo muestra la imagen en el navegador (Chrome, Edge o Firefox). No necesita cuenta,
+no tiene publicidad y es gratis y de código abierto.
 
-## Compilar (sin Android Studio)
-GitHub Actions compila el APK en cada `git push` (ver `.github/workflows/build.yml`).
-1. Sube el proyecto a un repositorio de GitHub (rama `main`).
-2. Pestaña **Actions** → ejecución más reciente → descarga el artefacto **dgds-debug-apk**.
-3. Descomprime el zip, pasa el `.apk` al teléfono e instálalo
-   (hay que permitir "instalar apps de orígenes desconocidos").
+> **Estado: beta temprana.** Ya puedes ver la pantalla del teléfono en el navegador.
+> Los controles desde la PC, el audio y otras funciones están en camino (ver más abajo).
 
-Si la compilación falla, abre la ejecución en Actions y copia el error del paso
-**Compilar APK de depuración**.
+## Qué necesitas
+- Un teléfono **Android 10 o más nuevo**.
+- Una PC o laptop con navegador, de cualquier sistema (Windows, Linux, ChromeOS, macOS).
+- El teléfono y la PC en la **misma red Wi-Fi**. Si tu red no sirve, también puedes
+  activar el *punto de acceso* del teléfono y conectar la PC a él.
 
-Con Android Studio también funciona: abre la carpeta y pulsa Run.
+## Instalar en el teléfono
+1. Entra desde el teléfono a la página de [**Descargas**](../../releases) y baja el archivo `DGDS-….apk` de la versión más reciente.
+2. Ábrelo. Android te pedirá permitir instalar apps de este origen: acepta (es normal,
+   la app todavía no está en la tienda de Google Play).
 
-## Probar
-1. Teléfono y laptop en la **misma red Wi-Fi** (mejor a 5 GHz).
-2. En la laptop instala ffmpeg (`sudo apt install ffmpeg` en Linux).
-3. En el teléfono abre DGDS → **Iniciar transmisión** → acepta el permiso.
-4. La app muestra el comando exacto con tu IP. Ejemplo:
+## Usar
+1. Abre **DGDS** en el teléfono y toca **Iniciar transmisión**. Acepta el permiso de captura de pantalla.
+2. La app te muestra una dirección parecida a `http://192.168.1.50:8080`.
+3. Escribe esa dirección en el navegador de tu PC.
+4. Listo: verás tu pantalla. Usa **Pantalla completa** para verla en grande.
 
-```
-ffplay -fflags nobuffer -flags low_delay -framedrop -probesize 32 -analyzeduration 0 -f h264 tcp://192.168.1.50:7878
-```
+Para terminar, toca **Detener transmisión** en el teléfono.
 
-## Limitaciones conocidas
-- La resolución se fija al iniciar. **Inicia la transmisión con el teléfono en la orientación del juego**
-  (horizontal para la mayoría). Girar durante la transmisión se resuelve en una fase posterior.
-- Juegos y apps con `FLAG_SECURE` se ven en negro: Android bloquea su captura.
-- Sin audio todavía.
-- Un solo cliente a la vez; sin cifrado ni contraseña, úsalo solo en redes de confianza.
+> Consejo: abre el juego **después** de iniciar la transmisión, y ponlo en la
+> orientación en que lo vas a jugar (horizontal para la mayoría), antes de iniciar.
 
-## Estructura
-```
-app-android/src/main/java/org/dgds/app/
-  MainActivity.kt                 pantalla principal
-  core/ScreenCaptureService.kt    servicio en primer plano + captura
-  core/VideoStreamer.kt           codificador H.264 + servidor TCP
-  core/LocalNetwork.kt            detecta las IP locales
-```
+## Si algo no funciona
+- **La app dice que el teléfono no está en una red Wi-Fi:** conecta el teléfono al mismo Wi-Fi que la PC. Los datos móviles no sirven.
+- **La página no carga en la PC:** comprueba que ambos están en la misma red y que escribiste la dirección completa, con `http://` y el número final. Algunas redes (hoteles, escuelas, redes de invitados) impiden que los dispositivos se vean entre sí; prueba con el punto de acceso del teléfono. Si usas VPN, desactívala.
+- **Se ve negro:** algunos juegos y apps bloquean la captura de pantalla y Android no lo permite.
+- **Va lento o se corta:** acerca ambos dispositivos al router y usa Wi-Fi de 5 GHz si puedes. En esta beta, el video ocupa bastante red y procesador del teléfono.
+- **El teléfono se calienta:** es normal al jugar y transmitir a la vez. Conviene cargarlo mientras tanto.
+- **Se quedó congelado:** pulsa **Reconectar** en la página.
+
+¿Sigue sin funcionar? Cuéntanoslo en [Problemas](../../issues) indicando el modelo de tu teléfono y qué ves.
+
+## Qué funciona hoy y qué viene
+**Hoy:** ver la pantalla del teléfono en el navegador de la PC por Wi-Fi.
+
+**En camino:**
+- Controlar el juego con el teclado, el mouse o un mando conectado a la PC.
+- Menos retraso y menos consumo de red (video H.264).
+- Conexión por cable USB-C.
+- Audio.
+- Pantalla del teléfono oscura mientras transmites, para ahorrar batería.
+- Guía para enviar la imagen a una TV.
+
+## Privacidad y seguridad
+- No hay cuentas ni publicidad, y la app no envía datos a internet: todo viaja dentro de tu red local.
+- Android muestra un aviso mientras se captura la pantalla.
+- Por ahora **no hay contraseña**: cualquiera en tu misma red que conozca la dirección podría ver tu pantalla.
+  Úsala solo en redes de confianza (tu casa), nunca en Wi-Fi públicos.
+
+## Colaborar
+DGDS es de todos. Si quieres ayudar con código, traducciones o guías, mira
+[docs/DESARROLLO.md](docs/DESARROLLO.md).
 
 ## Licencia
-Apache 2.0. Falta añadir el texto oficial como `LICENSE`
-(https://www.apache.org/licenses/LICENSE-2.0.txt). El archivo `NOTICE` ya está incluido.
+[Apache 2.0](LICENSE): libre para usar, modificar y compartir.
