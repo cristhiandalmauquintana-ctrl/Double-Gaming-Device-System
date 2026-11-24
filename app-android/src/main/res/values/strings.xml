@@ -8,7 +8,8 @@
     <string name="status_denied">Permiso de captura denegado</string>
     <string name="btn_start">Iniciar transmisión</string>
     <string name="btn_stop">Detener transmisión</string>
-    <string name="info_template">IP del teléfono:\n%1$s\n\nPara probar desde la laptop (necesita ffmpeg):\n\nffplay -fflags nobuffer -flags low_delay -framedrop -probesize 32 -analyzeduration 0 -f h264 tcp://%2$s:%3$d</string>
+    <string name="info_template">Abre esta dirección en el navegador de la laptop:\n\n%1$s\n\nLa laptop debe estar en la misma red Wi-Fi que el teléfono.</string>
+    <string name="info_no_network">El teléfono no está en una red Wi-Fi.\n\nConéctalo al mismo Wi-Fi que la laptop, o activa el punto de acceso del teléfono y conecta la laptop a él. Luego vuelve a esta pantalla.</string>
     <string name="notif_title">DGDS transmitiendo</string>
     <string name="notif_text">La pantalla se está enviando por la red local</string>
 </resources>

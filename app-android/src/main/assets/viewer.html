@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DGDS</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #cfd8dc;
+               font-family: system-ui, sans-serif; overflow: hidden; }
+  #v { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #msg { position: fixed; left: 12px; top: 10px; font-size: 14px; }
+  #bar { position: fixed; top: 8px; right: 8px; display: flex; gap: 8px;
+         opacity: .9; transition: opacity .4s; }
+  #bar.hide { opacity: 0; }
+  button { background: #12304d; color: #fff; border: 1px solid #1e90ff;
+           border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+</style>
+</head>
+<body>
+<img id="v" alt="">
+<div id="msg">Conectando…</div>
+<div id="bar">
+  <button id="reconnect">Reconectar</button>
+  <button id="fs">Pantalla completa</button>
+</div>
+<script>
+  const v = document.getElementById('v');
+  const msg = document.getElementById('msg');
+  const bar = document.getElementById('bar');
+  let retry;
+
+  function connect() {
+    clearTimeout(retry);
+    msg.textContent = 'Conectando…';
+    v.src = '/stream?' + Date.now();
+  }
+  v.onload = () => { msg.textContent = ''; };
+  v.onerror = () => {
+    msg.textContent = 'Sin señal. Reintentando…';
+    retry = setTimeout(connect, 1000);
+  };
+  document.getElementById('reconnect').onclick = connect;
+  document.getElementById('fs').onclick = () =>
+    document.fullscreenElement ? document.exitFullscreen()
+                               : document.documentElement.requestFullscreen();
+
+  let hideTimer;
+  document.onmousemove = () => {
+    bar.classList.remove('hide');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => bar.classList.add('hide'), 2500);
+  };
+  connect();
+</script>
+</body>
+</html>

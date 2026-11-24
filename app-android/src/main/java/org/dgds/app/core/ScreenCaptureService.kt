@@ -36,7 +36,7 @@ class ScreenCaptureService : Service() {
     }
 
     private var projection: MediaProjection? = null
-    private var streamer: VideoStreamer? = null
+    private var streamer: MjpegStreamer? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -75,7 +75,7 @@ class ScreenCaptureService : Service() {
         val h = max(16, (dm.heightPixels * scale).toInt() and 7.inv())
 
         try {
-            streamer = VideoStreamer(mp, w, h, dm.densityDpi).also { it.start() }
+            streamer = MjpegStreamer(applicationContext, mp, w, h, dm.densityDpi).also { it.start() }
             running = true
         } catch (e: Exception) {
             stopSelf()

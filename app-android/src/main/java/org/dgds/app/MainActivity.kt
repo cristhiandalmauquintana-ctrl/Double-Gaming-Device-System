@@ -13,7 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import org.dgds.app.core.LocalNetwork
 import org.dgds.app.core.ScreenCaptureService
-import org.dgds.app.core.VideoStreamer
+import org.dgds.app.core.MjpegStreamer
 
 class MainActivity : ComponentActivity() {
 
@@ -75,16 +75,12 @@ class MainActivity : ComponentActivity() {
 
     private fun refresh() {
         val running = ScreenCaptureService.running
-        status.text = if (running) getString(R.string.status_running, VideoStreamer.PORT)
+        status.text = if (running) getString(R.string.status_running, MjpegStreamer.PORT)
         else getString(R.string.status_idle)
         toggle.setText(if (running) R.string.btn_stop else R.string.btn_start)
 
-        val ips = LocalNetwork.localIpv4Addresses()
-        info.text = getString(
-            R.string.info_template,
-            ips.joinToString("\n").ifEmpty { "(sin red)" },
-            ips.firstOrNull() ?: "IP_DEL_TELEFONO",
-            VideoStreamer.PORT,
-        )
+        val urls = LocalNetwork.localIpv4Addresses().map { "http://$it:${MjpegStreamer.PORT}" }
+        info.text = if (urls.isEmpty()) getString(R.string.info_no_network)
+        else getString(R.string.info_template, urls.joinToString("\n"))
     }
 }
