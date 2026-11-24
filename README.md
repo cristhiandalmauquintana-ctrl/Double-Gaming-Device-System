@@ -6,6 +6,12 @@ Pensado para computadoras modestas: el juego o la app corre en tu teléfono, y l
 solo muestra la imagen en el navegador (Chrome, Edge o Firefox). No necesita cuenta,
 no tiene publicidad y es gratis y de código abierto.
 
+## Descargar la app
+### [**Descargar DGDS para Android (APK)**](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases/latest)
+
+Se abre la página de la versión más reciente. Baja hasta la sección **Assets** y toca el
+archivo que termina en **`.apk`**. Ignora los archivos "Source code": son para programadores.
+
 > **Estado: beta temprana.** Ya puedes ver la pantalla del teléfono en el navegador.
 > Los controles desde la PC, el audio y otras funciones están en camino (ver más abajo).
 
@@ -16,9 +22,11 @@ no tiene publicidad y es gratis y de código abierto.
   activar el *punto de acceso* del teléfono y conectar la PC a él.
 
 ## Instalar en el teléfono
-1. Entra desde el teléfono a la página de [**Descargas**](../../releases) y baja el archivo `DGDS-….apk` de la versión más reciente.
-2. Ábrelo. Android te pedirá permitir instalar apps de este origen: acepta (es normal,
-   la app todavía no está en la tienda de Google Play).
+1. Desde el teléfono, entra en la [página de descargas](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases/latest) y baja el archivo `.apk`.
+2. Ábrelo desde las notificaciones o desde la carpeta **Descargas**.
+3. Android te pedirá permitir instalar apps de este origen: acepta. Es normal, porque la
+   app todavía no está en la tienda de Google Play, y puede mostrar una advertencia de seguridad.
+4. Termina la instalación y abre **DGDS**.
 
 ## Usar
 1. Abre **DGDS** en el teléfono y toca **Iniciar transmisión**. Acepta el permiso de captura de pantalla.
@@ -28,8 +36,7 @@ no tiene publicidad y es gratis y de código abierto.
 
 Para terminar, toca **Detener transmisión** en el teléfono.
 
-> Consejo: abre el juego **después** de iniciar la transmisión, y ponlo en la
-> orientación en que lo vas a jugar (horizontal para la mayoría), antes de iniciar.
+> Puedes girar el teléfono cuando quieras: la imagen se adapta sola.
 
 ## Si algo no funciona
 - **La app dice que el teléfono no está en una red Wi-Fi:** conecta el teléfono al mismo Wi-Fi que la PC. Los datos móviles no sirven.
@@ -39,7 +46,7 @@ Para terminar, toca **Detener transmisión** en el teléfono.
 - **El teléfono se calienta:** es normal al jugar y transmitir a la vez. Conviene cargarlo mientras tanto.
 - **Se quedó congelado:** pulsa **Reconectar** en la página.
 
-¿Sigue sin funcionar? Cuéntanoslo en [Problemas](../../issues) indicando el modelo de tu teléfono y qué ves.
+¿Sigue sin funcionar? Cuéntanoslo en [Problemas](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/issues) indicando el modelo de tu teléfono y qué ves.
 
 ## Qué funciona hoy y qué viene
 **Hoy:** ver la pantalla del teléfono en el navegador de la PC por Wi-Fi.

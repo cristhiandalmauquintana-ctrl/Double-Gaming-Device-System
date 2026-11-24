@@ -25,6 +25,8 @@ conviene firmar con una clave propia.
 - Cada fotograma se comprime a JPEG y se sirve por HTTP en el puerto 8080:
   - `/` → visor (`app-android/src/main/assets/viewer.html`, editable sin tocar Kotlin)
   - `/stream` → video MJPEG
+- Al girar el teléfono, `ScreenCaptureService` detecta el cambio con un `DisplayListener` y
+  `MjpegStreamer.resize()` ajusta el `VirtualDisplay` (`resize` + `setSurface`) sin reiniciar.
 - Cada visor recibe siempre el último fotograma disponible, así que una red lenta baja los fps
   pero no acumula retraso.
 - Es una solución temporal: los navegadores solo permiten decodificar H.264 (WebCodecs) en
@@ -44,7 +46,7 @@ app-android/src/main/
 ```
 
 ## Limitaciones técnicas conocidas
-- La resolución y la orientación se fijan al iniciar la transmisión.
+- El tamaño máximo (lado mayor de 1280 px) es fijo; aún no se puede cambiar desde la app.
 - Contenido con `FLAG_SECURE` se captura en negro.
 - Sin audio, sin cifrado y sin autenticación.
 - MJPEG usa más CPU y ancho de banda que H.264.

@@ -38,6 +38,17 @@ class ScreenCaptureService : Service() {
     private var projection: MediaProjection? = null
     private var streamer: MjpegStreamer? = null
 
+    // Avisa cuando cambia la pantalla (por ejemplo, al girar el teléfono).
+    private val displayListener = object : DisplayManager.DisplayListener {
+        override fun onDisplayAdded(displayId: Int) {}
+        override fun onDisplayRemoved(displayId: Int) {}
+        override fun onDisplayChanged(displayId: Int) {
+            if (displayId != Display.DEFAULT_DISPLAY) return
+            val (w, h, _) = captureSize()
+            streamer?.resize(w, h) // no hace nada si el tamaño no cambió
+        }
+    }
+
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -67,15 +78,11 @@ class ScreenCaptureService : Service() {
         }, Handler(Looper.getMainLooper()))
         projection = mp
 
-        val dm = DisplayMetrics()
-        val display = getSystemService(DisplayManager::class.java).getDisplay(Display.DEFAULT_DISPLAY)
-        @Suppress("DEPRECATION") display.getRealMetrics(dm)
-        val scale = min(1f, MAX_SIDE.toFloat() / max(dm.widthPixels, dm.heightPixels))
-        val w = max(16, (dm.widthPixels * scale).toInt() and 7.inv()) // múltiplo de 8
-        val h = max(16, (dm.heightPixels * scale).toInt() and 7.inv())
-
+        val (w, h, dpi) = captureSize()
         try {
-            streamer = MjpegStreamer(applicationContext, mp, w, h, dm.densityDpi).also { it.start() }
+            streamer = MjpegStreamer(applicationContext, mp, w, h, dpi).also { it.start() }
+            getSystemService(DisplayManager::class.java)
+                .registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
             running = true
         } catch (e: Exception) {
             stopSelf()
@@ -85,11 +92,23 @@ class ScreenCaptureService : Service() {
 
     override fun onDestroy() {
         running = false
+        runCatching { getSystemService(DisplayManager::class.java).unregisterDisplayListener(displayListener) }
         streamer?.stop()
         streamer = null
         projection?.stop()
         projection = null
         super.onDestroy()
+    }
+
+    /** Tamaño de captura (ancho, alto, dpi) según la orientación actual, reducido a MAX_SIDE. */
+    private fun captureSize(): Triple<Int, Int, Int> {
+        val dm = DisplayMetrics()
+        val display = getSystemService(DisplayManager::class.java).getDisplay(Display.DEFAULT_DISPLAY)
+        @Suppress("DEPRECATION") display.getRealMetrics(dm)
+        val scale = min(1f, MAX_SIDE.toFloat() / max(dm.widthPixels, dm.heightPixels))
+        val w = max(16, (dm.widthPixels * scale).toInt() and 7.inv()) // múltiplo de 8
+        val h = max(16, (dm.heightPixels * scale).toInt() and 7.inv())
+        return Triple(w, h, dm.densityDpi)
     }
 
     private fun startAsForeground() {

@@ -38,8 +38,8 @@ import kotlin.concurrent.withLock
 class MjpegStreamer(
     context: Context,
     private val projection: MediaProjection,
-    private val width: Int,
-    private val height: Int,
+    private var width: Int,
+    private var height: Int,
     private val dpi: Int,
     private val port: Int = PORT,
 ) {
@@ -108,6 +108,29 @@ class MjpegStreamer(
         reader = null
         bitmap?.recycle()
         bitmap = null
+    }
+
+    /** Adapta la captura a un nuevo tamaño (p. ej. al girar el teléfono) sin reiniciar la transmisión. */
+    fun resize(newWidth: Int, newHeight: Int) {
+        handler?.post { applyResize(newWidth, newHeight) }
+    }
+
+    // Se ejecuta en el hilo de captura, el mismo que codifica, así que no hay carreras.
+    private fun applyResize(newWidth: Int, newHeight: Int) {
+        if (!running || (newWidth == width && newHeight == height)) return
+        val d = display ?: return
+        val old = reader
+        val fresh = ImageReader.newInstance(newWidth, newHeight, PixelFormat.RGBA_8888, 3)
+        fresh.setOnImageAvailableListener({ schedule() }, handler)
+        width = newWidth
+        height = newHeight
+        reader = fresh
+        d.resize(newWidth, newHeight, dpi)
+        d.setSurface(fresh.surface)
+        bitmap?.recycle()
+        bitmap = null
+        pending = false
+        old?.close()
     }
 
     // ---- Captura y codificación (hilo dgds-capture) ----
