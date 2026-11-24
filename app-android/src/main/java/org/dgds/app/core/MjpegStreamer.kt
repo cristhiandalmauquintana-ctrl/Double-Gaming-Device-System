@@ -11,6 +11,7 @@ import android.media.projection.MediaProjection
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.SystemClock
+import org.dgds.app.input.ControlChannel
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -205,15 +206,19 @@ class MjpegStreamer(
             s.soTimeout = 5000
             val input = s.getInputStream().bufferedReader(Charsets.ISO_8859_1)
             val requestLine = input.readLine() ?: return
+            val headers = HashMap<String, String>()
             while (true) {
                 val l = input.readLine()
                 if (l.isNullOrEmpty()) break
+                val i = l.indexOf(':')
+                if (i > 0) headers[l.substring(0, i).trim().lowercase()] = l.substring(i + 1).trim()
             }
             s.soTimeout = 0
-            val path = requestLine.split(" ").getOrNull(1)?.substringBefore('?') ?: "/"
-            when (path) {
+            val target = requestLine.split(" ").getOrNull(1) ?: "/"
+            when (target.substringBefore('?')) {
                 "/", "/index.html" -> sendPage(s)
                 "/stream" -> sendStream(s)
+                "/control" -> ControlChannel.serve(s, headers["sec-websocket-key"], target.substringAfter('?', ""))
                 else -> sendNotFound(s)
             }
         } catch (e: IOException) {

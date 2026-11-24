@@ -33,6 +33,22 @@ conviene firmar con una clave propia.
   direcciones seguras (HTTPS o `localhost`), y una IP local `http://` no lo es.
   Las opciones para la siguiente fase son H.264 en fMP4 con Media Source Extensions o HTTPS con certificado propio.
 
+## Controles
+- El visor abre un WebSocket a `ws://IP:8080/control?pin=XXXXXX` (`ControlChannel`, implementado a mano
+  sobre el mismo servidor, sin dependencias). Mensajes de texto `tipo,x,y` con x e y de 0 a 1 sobre la
+  pantalla: `d` bajar, `m` mover, `u` soltar. El servidor responde `noservice` si el servicio de
+  accesibilidad no está activo.
+- `InputAccessibilityService` convierte las coordenadas a píxeles reales y `TouchInjector` ejecuta el
+  gesto con `dispatchGesture` como un trazo continuo en tramos (`continueStroke`), descartando posiciones
+  intermedias para no acumular retraso.
+- **Seguridad:** el control exige un PIN de 6 cifras generado por transmisión (`ControlSession`), con
+  bloqueo tras 5 intentos fallidos. El video sigue sin contraseña. Pendiente: proteger también el video
+  y cifrar el tráfico.
+- Android 13+ restringe activar servicios de accesibilidad en APK instalados fuera de tienda
+  ("ajustes restringidos"); la guía para usuarios está en `docs/CONTROLES.md`.
+- Si la app llegara a Google Play, su política limita el uso de la API de accesibilidad a fines
+  de accesibilidad, así que habría que revisarla antes de publicar allí.
+
 ## Estructura
 ```
 app-android/src/main/
@@ -43,6 +59,9 @@ app-android/src/main/
     core/MjpegStreamer.kt            captura + servidor web (beta)
     core/VideoStreamer.kt            codificador H.264 (reservado, aún sin usar)
     core/LocalNetwork.kt             detecta las IP locales (Wi-Fi, punto de acceso, USB)
+    input/ControlChannel.kt          WebSocket de control + PIN de sesión
+    input/InputAccessibilityService.kt  servicio de accesibilidad (recibe los toques)
+    input/TouchInjector.kt           convierte bajar/mover/soltar en gestos
 ```
 
 ## Limitaciones técnicas conocidas

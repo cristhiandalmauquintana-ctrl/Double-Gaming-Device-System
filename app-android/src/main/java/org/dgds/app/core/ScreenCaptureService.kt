@@ -17,6 +17,7 @@ import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.Display
 import org.dgds.app.R
+import org.dgds.app.input.ControlSession
 import kotlin.math.max
 import kotlin.math.min
 
@@ -83,6 +84,7 @@ class ScreenCaptureService : Service() {
             streamer = MjpegStreamer(applicationContext, mp, w, h, dpi).also { it.start() }
             getSystemService(DisplayManager::class.java)
                 .registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
+            ControlSession.newSession()
             running = true
         } catch (e: Exception) {
             stopSelf()
@@ -92,6 +94,7 @@ class ScreenCaptureService : Service() {
 
     override fun onDestroy() {
         running = false
+        ControlSession.clear()
         runCatching { getSystemService(DisplayManager::class.java).unregisterDisplayListener(displayListener) }
         streamer?.stop()
         streamer = null

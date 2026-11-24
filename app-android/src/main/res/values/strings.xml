@@ -12,4 +12,18 @@
     <string name="info_no_network">El teléfono no está en una red Wi-Fi.\n\nConéctalo al mismo Wi-Fi que la laptop, o activa el punto de acceso del teléfono y conecta la laptop a él. Luego vuelve a esta pantalla.</string>
     <string name="notif_title">DGDS transmitiendo</string>
     <string name="notif_text">La pantalla se está enviando por la red local</string>
+    <string name="a11y_description">Permite que DGDS toque la pantalla del teléfono cuando usas el mouse en la PC. No lee el contenido de la pantalla.</string>
+    <string name="controls_title">Controles desde la PC</string>
+    <string name="controls_off">Desactivados. Para usar el mouse de la PC hay que activar el servicio de accesibilidad de DGDS.</string>
+    <string name="controls_on">Activados.</string>
+    <string name="controls_pin">PIN para la PC: %1$s</string>
+    <string name="controls_pin_idle">Inicia la transmisión para ver el PIN.</string>
+    <string name="btn_controls">Activar controles (Accesibilidad)</string>
+    <string name="controls_help">En Ajustes de accesibilidad busca DGDS y actívalo. Si el interruptor aparece gris (Android 13 o más nuevo): ve a Ajustes, Aplicaciones, DGDS, toca los tres puntos de arriba y elige Permitir ajustes restringidos. Luego vuelve a intentarlo. En la PC, pulsa Activar controles en el visor y escribe el PIN.</string>
+    <string name="btn_app_info">Interruptor gris: abrir info de la app</string>
+    <string name="dialog_controls_title">¿Activar los controles desde la PC?</string>
+    <string name="dialog_controls_message">Con los controles podrás usar el mouse de la PC para tocar el teléfono. Android no permite activarlos con un aviso como el de notificaciones: hay que hacerlo tú en Ajustes, una sola vez.\n\nSi prefieres solo ver la pantalla, puedes seguir sin activarlos.</string>
+    <string name="dialog_controls_enable">Activar ahora</string>
+    <string name="dialog_controls_later">Solo ver ahora</string>
+    <string name="dialog_controls_never">No preguntar más</string>
 </resources>
