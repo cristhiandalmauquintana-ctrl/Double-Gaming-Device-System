@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DGDS</string>
+    <string name="title">DGDS</string>
+    <string name="subtitle">Deep Gaming Device Stream</string>
+    <string name="status_idle">Detenido</string>
+    <string name="status_running">Transmitiendo (puerto %1$d)</string>
+    <string name="status_denied">Permiso de captura denegado</string>
+    <string name="btn_start">Iniciar transmisión</string>
+    <string name="btn_stop">Detener transmisión</string>
+    <string name="info_template">IP del teléfono:\n%1$s\n\nPara probar desde la laptop (necesita ffmpeg):\n\nffplay -fflags nobuffer -flags low_delay -framedrop -probesize 32 -analyzeduration 0 -f h264 tcp://%2$s:%3$d</string>
+    <string name="notif_title">DGDS transmitiendo</string>
+    <string name="notif_text">La pantalla se está enviando por la red local</string>
+</resources>
