@@ -7,7 +7,7 @@ solo muestra la imagen en el navegador (Chrome, Edge o Firefox). No necesita cue
 no tiene publicidad y es gratis y de código abierto.
 
 ## Descargar la app
-### [**Descargar DGDS para Android (APK)**](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases/latest)
+### [**Descargar DGDS para Android (APK)**](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases)
 
 Se abre la página de la versión más reciente. Baja hasta la sección **Assets** y toca el
 archivo que termina en **`.apk`**. Ignora los archivos "Source code": son para programadores.
@@ -22,7 +22,7 @@ archivo que termina en **`.apk`**. Ignora los archivos "Source code": son para p
   activar el *punto de acceso* del teléfono y conectar la PC a él.
 
 ## Instalar en el teléfono
-1. Desde el teléfono, entra en la [página de descargas](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases/latest) y baja el archivo `.apk`.
+1. Desde el teléfono, entra en la [página de descargas](https://github.com/cristhiandalmauquintana-ctrl/Double-Gaming-Device-System/releases) y baja el archivo `.apk`.
 2. Ábrelo desde las notificaciones o desde la carpeta **Descargas**.
 3. Android te pedirá permitir instalar apps de este origen: acepta. Es normal, porque la
    app todavía no está en la tienda de Google Play, y puede mostrar una advertencia de seguridad.
