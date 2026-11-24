@@ -1,4 +1,4 @@
-# DGDS (Deep Gaming Device Stream)
+# DGDS (Double Gaming Device Stream)
 
 Transmite la pantalla de tu teléfono Android a una laptop de bajos recursos para jugar.
 La laptop solo decodifica el video; el juego corre en el teléfono.
