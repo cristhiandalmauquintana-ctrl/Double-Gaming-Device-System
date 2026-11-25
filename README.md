@@ -1,3 +1,5 @@
+<p align="center"><img src="art/icon/icon-512.png" width="128" alt="DGDS"></p>
+
 # DGDS
 
 **Mira la pantalla de tu teléfono Android en tu PC, sin instalar nada en la PC.**

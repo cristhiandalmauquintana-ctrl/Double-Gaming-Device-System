@@ -14,6 +14,13 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="96dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/title"
+                android:src="@drawable/dgds_logo" />
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
